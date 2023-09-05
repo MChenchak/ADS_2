@@ -85,9 +85,11 @@ class SimpleTree<T> {
     }
 
     private List<SimpleTreeNode<T>> collect(SimpleTreeNode<T> node) {
-        List<SimpleTreeNode<T>> list = new ArrayList<>() {{add(node);}};
+        List<SimpleTreeNode<T>> list = new ArrayList<>();
 
         if (isLeaf(node)) return list;
+
+        list.add(node);
 
         for(SimpleTreeNode<T> child : node.Children) {
             list.addAll(collect(child));
@@ -135,7 +137,7 @@ class SimpleTree<T> {
 
     private int countSubTreeNodes(SimpleTreeNode<T> node) {
         if (node == null) return 0;
-        if (isLeaf(node)) return 1;
+        if (isLeaf(node)) return 0;
 
         int count = 1;
 

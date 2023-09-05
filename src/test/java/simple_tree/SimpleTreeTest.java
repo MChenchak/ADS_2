@@ -25,7 +25,8 @@ class SimpleTreeTest {
         SimpleTree<String> tree = new SimpleTree<>(root);
 
         assertEquals("root", root.NodeValue);
-        assertEquals(1, tree.Count());
+        assertEquals(0, tree.Count());
+        assertEquals(1, tree.LeafCount());
     }
 
     @Test
@@ -39,7 +40,7 @@ class SimpleTreeTest {
         tree.AddChild(tree.Root, newChild);
 
         assertTrue(root.Children.contains(newChild));
-        assertEquals(2, tree.Count());
+        assertEquals(1, tree.Count());
         assertEquals(1, tree.Root.Children.size());
         assertEquals(tree.Root, newChild.Parent);
         assertNull(newChild.Children);
@@ -74,7 +75,7 @@ class SimpleTreeTest {
 
         tree.DeleteNode(secondRootChild);
 
-        assertEquals(2,tree.Count());
+        assertEquals(1,tree.Count());
     }
 
 
@@ -155,7 +156,7 @@ class SimpleTreeTest {
         List<SimpleTreeNode<String>> list = tree.GetAllNodes();
 
         assertNotNull(list);
-        assertEquals(5, list.size());
+        assertEquals(2, list.size());
     }
 
     @Test
@@ -171,12 +172,13 @@ class SimpleTreeTest {
         tree.AddChild(secondRootChild, new SimpleTreeNode<>("one more child", null));
 
         assertEquals(3, tree.LeafCount());
-        assertEquals(5, tree.Count());
+        assertEquals(2, tree.Count());
 
         tree.MoveNode(firstRootChild, secondRootChild);
 
         assertEquals(3, tree.LeafCount());
-        assertEquals(5, tree.Count());
+        assertEquals(2, tree.Count());
+        assertEquals(2, tree.GetAllNodes().size());
 
     }
 
@@ -194,12 +196,26 @@ class SimpleTreeTest {
         tree.AddChild(secondRootChild, new SimpleTreeNode<>("one more child", null));
 
         assertEquals(3, tree.LeafCount());
-        assertEquals(5, tree.Count());
+        assertEquals(2, tree.Count());
 
         tree.MoveNode(firstRootChild, oneMoreChild);
 
         assertEquals(2, tree.LeafCount());
-        assertEquals(5, tree.Count());
+        assertEquals(3, tree.Count());
+        assertEquals(3, tree.GetAllNodes().size());
+
+    }
+
+    @Test
+    @DisplayName("Размер дерева из двух элементов")
+    void countOfTwo() {
+        SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
+        SimpleTreeNode<String> firstRootChild = new SimpleTreeNode<>("firstRootChild", null);
+
+        SimpleTree<String> tree = new SimpleTree<>(root);
+        tree.AddChild(root, firstRootChild);
+
+        assertEquals(1, tree.Count());
 
     }
 }
