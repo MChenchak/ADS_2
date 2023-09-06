@@ -90,9 +90,9 @@ class SimpleTree<T> {
     private List<SimpleTreeNode<T>> collect(SimpleTreeNode<T> node) {
         List<SimpleTreeNode<T>> list = new ArrayList<>();
 
-        if (isLeaf(node)) return list;
-
         list.add(node);
+
+        if (node.Children == null || node.Children.size() == 0) return list;
 
         for (SimpleTreeNode<T> child : node.Children) {
             list.addAll(collect(child));

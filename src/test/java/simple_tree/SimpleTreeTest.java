@@ -156,8 +156,9 @@ class SimpleTreeTest {
 
         List<SimpleTreeNode<String>> list = tree.GetAllNodes();
 
+        assertEquals(2,tree.Count());
         assertNotNull(list);
-        assertEquals(2, list.size());
+        assertEquals(5, list.size());
     }
 
     @Test
@@ -179,7 +180,6 @@ class SimpleTreeTest {
 
         assertEquals(3, tree.LeafCount());
         assertEquals(2, tree.Count());
-        assertEquals(2, tree.GetAllNodes().size());
 
     }
 
@@ -203,7 +203,6 @@ class SimpleTreeTest {
 
         assertEquals(2, tree.LeafCount());
         assertEquals(3, tree.Count());
-        assertEquals(3, tree.GetAllNodes().size());
 
     }
 
