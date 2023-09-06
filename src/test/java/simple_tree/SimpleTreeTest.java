@@ -25,8 +25,8 @@ class SimpleTreeTest {
         SimpleTree<String> tree = new SimpleTree<>(root);
 
         assertEquals("root", root.NodeValue);
-        assertEquals(0, tree.Count());
-        assertEquals(1, tree.LeafCount());
+        assertEquals(1, tree.Count());
+        assertEquals(0, tree.LeafCount());
     }
 
     @Test
@@ -92,7 +92,8 @@ class SimpleTreeTest {
     void onlyRootLeafCount() {
         SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
         SimpleTree<String> tree = new SimpleTree<>(root);
-        assertEquals(1, tree.LeafCount());
+        assertEquals(0, tree.LeafCount());
+        assertEquals(1, tree.Count());
     }
 
     @Test
@@ -217,5 +218,16 @@ class SimpleTreeTest {
 
         assertEquals(1, tree.Count());
 
+    }
+
+    @Test
+    @DisplayName("размер дерева из одного элемента")
+    void countOnlyRoot() {
+        SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
+        SimpleTree<String> tree = new SimpleTree<>(root);
+
+        int count = tree.Count();
+
+        assertEquals(1, count);
     }
 }

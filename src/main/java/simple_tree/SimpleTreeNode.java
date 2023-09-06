@@ -1,6 +1,7 @@
 package simple_tree;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleTreeNode<T> {
     public T NodeValue; // значение в узле
@@ -28,6 +29,8 @@ public class SimpleTreeNode<T> {
 
 class SimpleTree<T> {
     public SimpleTreeNode<T> Root; // корень, может быть null
+    public int nodeCount = 0;
+    public int leafCount = 0;
 
     public SimpleTree(SimpleTreeNode<T> root) {
         Root = root;
@@ -91,7 +94,7 @@ class SimpleTree<T> {
 
         list.add(node);
 
-        for(SimpleTreeNode<T> child : node.Children) {
+        for (SimpleTreeNode<T> child : node.Children) {
             list.addAll(collect(child));
         }
 
@@ -128,10 +131,14 @@ class SimpleTree<T> {
     }
 
     public int Count() {
+        if (this.Root == null) return 0;
+        if (isLeaf(this.Root)) return 1;
         return countSubTreeNodes(this.Root);
     }
 
     public int LeafCount() {
+        if (this.Root == null) return 0;
+        if (isLeaf(this.Root)) return 0;
         return getLeafCount(this.Root);
     }
 
