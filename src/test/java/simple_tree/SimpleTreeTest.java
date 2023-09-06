@@ -26,7 +26,7 @@ class SimpleTreeTest {
 
         assertEquals("root", root.NodeValue);
         assertEquals(1, tree.Count());
-        assertEquals(0, tree.LeafCount());
+        assertEquals(1, tree.LeafCount());
     }
 
     @Test
@@ -92,7 +92,7 @@ class SimpleTreeTest {
     void onlyRootLeafCount() {
         SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
         SimpleTree<String> tree = new SimpleTree<>(root);
-        assertEquals(0, tree.LeafCount());
+        assertEquals(1, tree.LeafCount());
         assertEquals(1, tree.Count());
     }
 

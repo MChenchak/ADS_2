@@ -138,7 +138,7 @@ class SimpleTree<T> {
 
     public int LeafCount() {
         if (this.Root == null) return 0;
-        if (isLeaf(this.Root)) return 0;
+        if (isLeaf(this.Root)) return 1;
         return getLeafCount(this.Root);
     }
 
