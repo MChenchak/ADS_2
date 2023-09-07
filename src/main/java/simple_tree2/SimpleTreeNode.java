@@ -132,7 +132,7 @@ class SimpleTree<T>
         if (this.Root == null) return 0;
         if (isLeaf(this.Root)) return 1;
         // количество всех узлов в дереве
-        return countRec(this.Root) - LeafCount();
+        return countRec(this.Root);
     }
 
     private int countRec(SimpleTreeNode<T> current) {
