@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class SimpleTreeTest {
 
@@ -23,7 +24,22 @@ class SimpleTreeTest {
     @Test
     @DisplayName("Количество узлов в дереве из двух элементов")
     void countOfTwoElements() {
-       SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
+        SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
+        SimpleTreeNode<String> child = new SimpleTreeNode<>("child", null);
+
+        SimpleTree<String> tree = new SimpleTree<>(root);
+        tree.AddChild(root, child);
+
+        int count = tree.Count();
+
+        assertEquals(2, count);
+        assertEquals(1, tree.LeafCount());
+    }
+
+    @Test
+    @DisplayName("Количество узлов в дереве из двух элементов v2")
+    void countOfTwoElements2() {
+        SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
         SimpleTreeNode<String> child = new SimpleTreeNode<>("child", root);
 
         SimpleTree<String> tree = new SimpleTree<>(root);

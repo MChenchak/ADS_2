@@ -15,17 +15,6 @@ public class SimpleTreeNode<T>
         NodeValue = val;
         Parent = parent;
         Children = null;
-        addChild(parent, this);
-
-    }
-
-    private void addChild(SimpleTreeNode<T> parent, SimpleTreeNode<T> child) {
-        if (parent == null) return;
-        if (parent.Children == null) {
-            parent.Children = new ArrayList<>() {{add(child);}};
-        } else {
-            parent.Children.add(child);
-        }
     }
 }
 
