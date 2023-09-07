@@ -220,7 +220,7 @@ class SimpleTreeTest {
     }
 
     @Test
-    @DisplayName("размер дерева из одного элемента")
+    @DisplayName("Количество узлов в дереве из одного элемента")
     void countOnlyRoot() {
         SimpleTreeNode<String> root = new SimpleTreeNode<>("root", null);
         SimpleTree<String> tree = new SimpleTree<>(root);
@@ -229,4 +229,6 @@ class SimpleTreeTest {
 
         assertEquals(1, count);
     }
+
+
 }

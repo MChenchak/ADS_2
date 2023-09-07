@@ -133,7 +133,7 @@ class SimpleTree<T> {
     public int Count() {
         if (this.Root == null) return 0;
         if (isLeaf(this.Root)) return 1;
-        return countSubTreeNodes(this.Root);
+        return countRec(this.Root);
     }
 
     public int LeafCount() {
@@ -142,21 +142,19 @@ class SimpleTree<T> {
         return getLeafCount(this.Root);
     }
 
-    private int countSubTreeNodes(SimpleTreeNode<T> node) {
-        if (node == null) return 0;
+    private int countRec(SimpleTreeNode<T> node) {
         if (isLeaf(node)) return 0;
 
         int count = 1;
 
         for (SimpleTreeNode<T> n : node.Children) {
-            count += countSubTreeNodes(n);
+            count += countRec(n);
         }
 
         return count;
     }
 
     private int getLeafCount(SimpleTreeNode<T> node) {
-        if (node == null) return 0;
         if (isLeaf(node)) return 1;
 
         int leafCount = 0;
