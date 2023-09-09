@@ -64,20 +64,24 @@ class BST<T> {
         return result;
     }
 
-    private BSTNode<T> findRec(BSTNode<T> root, int key) {
-        if (root == null) return root;
-        if (root.NodeKey == key) return root;
+    private BSTNode<T> findRec(BSTNode<T> current, int key) {
+        if (current == null) return current;
+        if (current.NodeKey == key) return current;
 
-        if (key < root.NodeKey) {
-            if (root.LeftChild == null) return root;
-            return findRec(root.LeftChild, key);
+        if (key < current.NodeKey) {
+            if (current.LeftChild == null) return current;
+            return findRec(current.LeftChild, key);
         } else {
-            if (root.RightChild == null) return root;
-            return findRec(root.RightChild, key);
+            if (current.RightChild == null) return current;
+            return findRec(current.RightChild, key);
         }
     }
 
     public boolean AddKeyValue(int key, T val) {
+        if (this.Root == null) {
+            this.Root = new BSTNode<>(key, val, null);
+        }
+
         BSTFind<T> found = FindNodeByKey(key);
         // добавляем ключ-значение в дерево
         if (!found.NodeHasKey) {

@@ -158,5 +158,12 @@ class BSTTest {
 
     }
 
+    @Test
+    @DisplayName("add to emty tree")
+    void addToEmptyTree() {
+        BST<String> bst = new BST<>(null);
+        bst.AddKeyValue(100, "100");
+    }
+
 
 }
