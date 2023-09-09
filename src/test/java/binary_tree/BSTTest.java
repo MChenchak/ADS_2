@@ -8,250 +8,155 @@ import static org.junit.jupiter.api.Assertions.*;
 class BSTTest {
 
     @Test
-    @DisplayName("Поиск в дереве только из корневого узла. Узел не найден. Вставить в left")
-    void notFoundInsertToLeft() {
+    @DisplayName("find by key. Found")
+    void foundByKey() {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BST<String> bst  = new BST<>(root);
+        BST<String> bst = new BST<>(root);
 
-        BSTFind<String> found = bst.FindNodeByKey(90);
+        bst.AddKeyValue(90, "devyanosto");
+        bst.AddKeyValue(110, "stodesyat");
+        boolean vsmdst = bst.AddKeyValue(80, "vsmdst");
 
-        assertEquals(found.Node, root);
-        assertFalse(found.NodeHasKey);
-        assertTrue(found.ToLeft);
+        BSTFind<String> result = bst.FindNodeByKey(80);
+
+        assertTrue(vsmdst);
+        assertEquals("vsmdst", result.Node.NodeValue);
+        assertTrue(result.NodeHasKey);
     }
 
     @Test
-    @DisplayName("Поиск в дереве только из корневого узла. Узел не найден. Вставить в right")
-    void notFoundInsertToRight() {
+    @DisplayName("find by key. Found")
+    void notFoundByKey() {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BST<String> bst  = new BST<>(root);
+        BST<String> bst = new BST<>(root);
 
-        BSTFind<String> found = bst.FindNodeByKey(110);
+        bst.AddKeyValue(90, "devyanosto");
+        bst.AddKeyValue(110, "stodesyat");
+        bst.AddKeyValue(80, "vsmdst");
 
-        assertEquals(found.Node, root);
-        assertFalse(found.NodeHasKey);
-        assertFalse(found.ToLeft);
+        BSTFind<String> result = bst.FindNodeByKey(109);
+
+        assertFalse(result.NodeHasKey);
+        assertTrue(result.ToLeft);
+        assertEquals("stodesyat", result.Node.NodeValue);
     }
 
     @Test
-    @DisplayName("Node found - root")
-    void nodeFoundRoot() {
+    @DisplayName("add exists")
+    void addExists() {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BST<String> bst  = new BST<>(root);
+        BST<String> bst = new BST<>(root);
 
-        BSTFind<String> found = bst.FindNodeByKey(100);
+        bst.AddKeyValue(90, "devyanosto");
+        bst.AddKeyValue(110, "stodesyat");
+        bst.AddKeyValue(80, "vsmdst");
+        boolean vsmdst = bst.AddKeyValue(80, "vsmdst");
 
-        assertEquals(found.Node, root);
-        assertTrue(found.NodeHasKey);
-        assertFalse(found.ToLeft);
+        assertFalse(vsmdst);
     }
-
-    @Test
-    @DisplayName("Node found - left node")
-    void nodeFoundLeft() {
-        BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
-
-        BSTFind<String> found = bst.FindNodeByKey(90);
-
-        assertEquals(found.Node, left);
-        assertTrue(found.NodeHasKey);
-    }
-
-    @Test
-    @DisplayName("Node found - right node")
-    void nodeFoundRight() {
-        BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
-
-        BSTFind<String> found = bst.FindNodeByKey(110);
-
-        assertEquals(found.Node, right);
-        assertTrue(found.NodeHasKey);
-    }
-
-    @Test
-    @DisplayName("Add - right node")
-    void addRight() {
-        BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
-
-        boolean result = bst.AddKeyValue(150, "newRight");
-
-        assertTrue(result);
-        assertEquals(right.RightChild.NodeValue, "newRight");
-    }
-
-    @Test
-    @DisplayName("Add - left node")
-    void addLeft() {
-        BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
-
-        boolean result = bst.AddKeyValue(15, "newleft");
-
-        assertTrue(result);
-        assertEquals(left.LeftChild.NodeValue, "newleft");
-    }
-
-    @Test
-    @DisplayName("Add - false when exists")
-    void addExistsKey() {
-        BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
-
-        boolean result = bst.AddKeyValue(110, "newleft");
-
-        assertFalse(result);
-    }
-
 
     @Test
     @DisplayName("find max")
     void findMax() {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
+        BST<String> bst = new BST<>(root);
 
-        BSTNode<String> max = bst.FinMinMax(root, true);
+        bst.AddKeyValue(90, "devyanosto");
+        bst.AddKeyValue(110, "stodesyat");
+        bst.AddKeyValue(80, "vsmdst");
 
-        assertNotNull(max);
-        assertEquals(right, max);
+        BSTNode<String> max = bst.FinMinMax(bst.Root, true);
+
+        assertEquals(110, max.NodeKey);
     }
 
     @Test
     @DisplayName("find min")
     void findMin() {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
-        BSTNode<String> left = new BSTNode<>(90, "left", root);
-        BSTNode<String> right = new BSTNode<>(110, "right", root);
-        BST<String> bst  = new BST<>(root);
+        BST<String> bst = new BST<>(root);
 
-        BSTNode<String> min = bst.FinMinMax(root, false);
+        bst.AddKeyValue(90, "devyanosto");
+        bst.AddKeyValue(110, "stodesyat");
+        bst.AddKeyValue(80, "vsmdst");
+        bst.AddKeyValue(109, "vsmdst");
+        bst.AddKeyValue(112, "vsmdst");
 
-        assertNotNull(min);
-        assertEquals(left, min);
+        BSTFind<String> found = bst.FindNodeByKey(110);
+
+        BSTNode<String> min = bst.FinMinMax(found.Node, false);
+
+        assertEquals(109, min.NodeKey);
     }
 
+
     @Test
-    @DisplayName("delete when found is leaf")
+    @DisplayName("delete leaf")
     void deleteLeaf() {
-        BSTNode<String> nine = new BSTNode<>(9, "root", null);
-        BSTNode<String> four = new BSTNode<>(4, "four", nine);
-        BSTNode<String> seventeen = new BSTNode<>(17, "seventeen", nine);
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
 
-        BSTNode<String> three = new BSTNode<>(3, "three", four);
-        BSTNode<String> six = new BSTNode<>(6, "six", four);
+        bst.AddKeyValue(90, "devyanosto");
+        bst.AddKeyValue(110, "stodesyat");
+        bst.AddKeyValue(80, "vsmdst");
+        bst.AddKeyValue(109, "vsmdst");
+        bst.AddKeyValue(112, "vsmdst");
 
-        BSTNode<String> five = new BSTNode<>(5, "five", six);
-        BSTNode<String> seven = new BSTNode<>(7, "seven", six);
+        boolean b = bst.DeleteNodeByKey(112);
 
-        BSTNode<String> twentytwo = new BSTNode<>(22, "twentytwo", seventeen);
-        BSTNode<String> twenty = new BSTNode<>(20, "twenty", twentytwo);
-
-        BST<String> bst  = new BST<>(nine);
-
-        BSTNode<String> min = bst.FinMinMax(seventeen, false);
-
-        bst.DeleteNodeByKey(20);
-        BSTFind<String> found = bst.FindNodeByKey(20);
-
-        assertFalse(found.NodeHasKey);
-        assertEquals(twentytwo, found.Node);
+        assertTrue(b);
     }
 
     @Test
-    @DisplayName("delete when only one child")
-    void deleteWhenOnlyOneChild() {
-        BSTNode<String> nine = new BSTNode<>(9, "root", null);
-        BSTNode<String> four = new BSTNode<>(4, "four", nine);
-        BSTNode<String> seventeen = new BSTNode<>(17, "seventeen", nine);
+    @DisplayName("delete root with only left child")
+    void delRootWithOnlyLeftChild() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
 
-        BSTNode<String> three = new BSTNode<>(3, "three", four);
-        BSTNode<String> six = new BSTNode<>(6, "six", four);
+        bst.AddKeyValue(80, "80");
 
-        BSTNode<String> five = new BSTNode<>(5, "five", six);
-        BSTNode<String> seven = new BSTNode<>(7, "seven", six);
-
-        BSTNode<String> twentytwo = new BSTNode<>(22, "twentytwo", seventeen);
-        BSTNode<String> twenty = new BSTNode<>(20, "twenty", twentytwo);
-
-        BST<String> bst  = new BST<>(nine);
-
-        bst.DeleteNodeByKey(22);
-        BSTFind<String> found = bst.FindNodeByKey(22);
-
-        assertFalse(found.NodeHasKey);
-        assertEquals(twenty, found.Node);
+        bst.DeleteNodeByKey(100);
+        assertEquals(1, bst.Count());
+        assertEquals(bst.FindNodeByKey(80).Node, bst.Root);
     }
 
     @Test
-    @DisplayName("delete with two children")
-    void deleteWhenTwoChildren() {
+    @DisplayName("delete root with only right child")
+    void delRootWithOnlyRightChild() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
 
-        BSTNode<String> nine = new BSTNode<>(9, "root", null);
-        BSTNode<String> four = new BSTNode<>(4, "four", nine);
-        BSTNode<String> seventeen = new BSTNode<>(17, "seventeen", nine);
+        bst.AddKeyValue(800, "800");
+        bst.AddKeyValue(1000, "1000");
 
-        BSTNode<String> three = new BSTNode<>(3, "three", four);
-        BSTNode<String> six = new BSTNode<>(6, "six", four);
-
-        BSTNode<String> five = new BSTNode<>(5, "five", six);
-        BSTNode<String> seven = new BSTNode<>(7, "seven", six);
-
-        BSTNode<String> twentytwo = new BSTNode<>(22, "twentytwo", seventeen);
-        BSTNode<String> twenty = new BSTNode<>(20, "twenty", twentytwo);
-
-        BST<String> bst  = new BST<>(nine);
-
-        bst.DeleteNodeByKey(4);
-        BSTFind<String> found = bst.FindNodeByKey(4);
-
-        assertFalse(found.NodeHasKey);
-
+        bst.DeleteNodeByKey(100);
+        assertEquals(2, bst.Count());
+        assertEquals(bst.FindNodeByKey(800).Node, bst.Root);
     }
 
     @Test
-    @DisplayName("delete with two children right")
-    void deleteWhenTwoChildrenRight() {
+    @DisplayName("delete node with two children")
+    void delNodeWithTwoChildren() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
 
-        BSTNode<String> nine = new BSTNode<>(9, "root", null);
-        BSTNode<String> four = new BSTNode<>(4, "four", nine);
-        BSTNode<String> seventeen = new BSTNode<>(17, "seventeen", nine);
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(80, "80");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(109, "109");
+        bst.AddKeyValue(150, "150");
+        bst.AddKeyValue(170, "170");
+        bst.AddKeyValue(160, "160");
+        bst.AddKeyValue(175, "175");
 
-        BSTNode<String> three = new BSTNode<>(3, "three", four);
-        BSTNode<String> six = new BSTNode<>(6, "six", four);
+        assertEquals(9, bst.Count());
 
-        BSTNode<String> five = new BSTNode<>(5, "five", six);
-        BSTNode<String> seven = new BSTNode<>(7, "seven", six);
+        boolean deleted = bst.DeleteNodeByKey(110);
 
-        BSTNode<String> twentytwo = new BSTNode<>(22, "twentytwo", seventeen);
-        BSTNode<String> twenty = new BSTNode<>(20, "twenty", twentytwo);
-
-
-        BSTNode<String> eight = new BSTNode<>(8, "eight", seven);
-
-
-        BST<String> bst  = new BST<>(nine);
-
-        bst.DeleteNodeByKey(7);
-        BSTFind<String> found = bst.FindNodeByKey(7);
-
-        assertFalse(found.NodeHasKey);
+        assertTrue(deleted);
+        assertEquals(8, bst.Count());
 
     }
-
 
 
 }

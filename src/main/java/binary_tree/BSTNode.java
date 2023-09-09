@@ -6,7 +6,6 @@ class BSTNode<T> {
     public BSTNode<T> Parent; // родитель или null для корня
     public BSTNode<T> LeftChild; // левый потомок
     public BSTNode<T> RightChild; // правый потомок
-    public boolean isLeft;
 
     public BSTNode(int key, T val, BSTNode<T> parent) {
         NodeKey = key;
@@ -14,14 +13,19 @@ class BSTNode<T> {
         Parent = parent;
         LeftChild = null;
         RightChild = null;
+    }
 
-        if (parent != null && key <= parent.NodeKey) {
-            parent.LeftChild = this;
-            isLeft = true;
-        } else if (parent != null && key > parent.NodeKey) {
-            parent.RightChild = this;
-            isLeft = false;
-        }
+    public int getSize() {
+        int leftSize = 0;
+        int rightSize = 0;
+
+        if (this.LeftChild != null)
+            leftSize = this.LeftChild.getSize();
+        if (this.RightChild != null)
+            rightSize = this.RightChild.getSize();
+
+        return 1 + leftSize + rightSize;
+
     }
 }
 
@@ -50,36 +54,40 @@ class BST<T> {
 
     public BSTFind<T> FindNodeByKey(int key) {
         // ищем в дереве узел и сопутствующую информацию по ключу
-        return findNodeByKeyRec(this.Root, null, key, false);
+        BSTNode<T> found = findRec(this.Root, key);
+        BSTFind<T> result = new BSTFind<>();
+
+        result.Node = found;
+        result.NodeHasKey = key == found.NodeKey;
+        result.ToLeft = key < found.NodeKey;
+
+        return result;
     }
 
-    private BSTFind<T> findNodeByKeyRec(BSTNode<T> current, BSTNode<T> parent, int key, boolean toLeft) {
-        BSTFind<T> found = new BSTFind<>();
-        if (current == null) {
-            found.Node = parent;
-            found.NodeHasKey = false;
-            found.ToLeft = toLeft;
-            return found;
-        }
+    private BSTNode<T> findRec(BSTNode<T> root, int key) {
+        if (root == null) return root;
+        if (root.NodeKey == key) return root;
 
-        if (current.NodeKey == key) {
-            found.Node = current;
-            found.NodeHasKey = true;
-            found.ToLeft = false;
-            return found;
+        if (key < root.NodeKey) {
+            if (root.LeftChild == null) return root;
+            return findRec(root.LeftChild, key);
+        } else {
+            if (root.RightChild == null) return root;
+            return findRec(root.RightChild, key);
         }
-
-        return key < current.NodeKey ?
-                findNodeByKeyRec(current.LeftChild, current, key, true) :
-                findNodeByKeyRec(current.RightChild, current, key, false);
     }
 
     public boolean AddKeyValue(int key, T val) {
-        // добавляем ключ-значение в дерево
         BSTFind<T> found = FindNodeByKey(key);
+        // добавляем ключ-значение в дерево
         if (!found.NodeHasKey) {
             BSTNode<T> parent = found.Node;
             BSTNode<T> newNode = new BSTNode<>(key, val, parent);
+            if (found.ToLeft) {
+                parent.LeftChild = newNode;
+            } else {
+                parent.RightChild = newNode;
+            }
             return true;
         }
         return false; // если ключ уже есть
@@ -100,85 +108,65 @@ class BST<T> {
         return findMinRec(current.RightChild);
     }
 
-    private boolean isLeaf(BSTNode<T> node) {
-        return node.LeftChild == null && node.RightChild == null;
-    }
-
     public boolean DeleteNodeByKey(int key) {
-        // удаляем узел по ключу
         BSTFind<T> found = FindNodeByKey(key);
-
-        //Если искомого узла нет в дереве
-        if (!found.NodeHasKey) return false;
+        if (!found.NodeHasKey) return false; // если узел не найден
 
         BSTNode<T> toDelete = found.Node;
-
-        // Eсли удаляемый узел - лист
-        if (isLeaf(toDelete)) {
-            if (toDelete.equals(toDelete.Parent.LeftChild)) {
-                toDelete.Parent.LeftChild = null;
-            } else {
-                toDelete.Parent.RightChild = null;
-            }
-            toDelete.Parent = null;
-            return true;
-        }
-
-        BSTNode<T> newNode = findNewNode(toDelete, key);
-        // если только один потомок
-        if (toDelete.LeftChild == null || toDelete.RightChild == null) {
-            newNode.Parent = toDelete.Parent;
-
-            if (toDelete.equals(toDelete.Parent.LeftChild)) {
-                toDelete.Parent.LeftChild = newNode;
-                return true;
-            } else if (toDelete.equals(toDelete.Parent.RightChild)) {
-                toDelete.Parent.RightChild = newNode;
-            }
-
-            toDelete.Parent = null;
-            toDelete.RightChild = null;
-            toDelete.LeftChild = null;
-            return true;
-        }
-
-        if (toDelete.isLeft) {
-            toDelete.Parent.LeftChild = newNode;
-            newNode.Parent.LeftChild = null;
-        } else {
-            toDelete.Parent.RightChild = newNode;
-        }
-
-        newNode.isLeft = toDelete.isLeft;
-        newNode.Parent = toDelete.Parent;
-        newNode.RightChild = toDelete.RightChild;
-        newNode.LeftChild = toDelete.LeftChild;
-
-        newNode.RightChild.Parent = newNode;
-        newNode.LeftChild.Parent = newNode;
-
-        toDelete.Parent = null;
-        toDelete.LeftChild = null;
-        toDelete.RightChild = null;
-
+        this.Root = deleteRecursive(this.Root, key);
         return true;
 
     }
 
-    private BSTNode<T> findNewNode(BSTNode<T> current, int key) {
-        if (current.LeftChild == null) {
-            return current.RightChild;
+    private BSTNode<T> deleteRecursive(BSTNode<T> current, int key) {
+        if (current == null) return current;
+
+        if (key == current.NodeKey) {
+            if (isLeaf(current)) return null;
+
+            if (current.RightChild == null) {
+                current.LeftChild.Parent = current.Parent;
+                current.Parent = null;
+                return current.LeftChild;
+            }
+
+            if (current.LeftChild == null) {
+                current.RightChild.Parent = current.Parent;
+                current.Parent = null;
+                return current.RightChild;
+            }
+
+            BSTNode<T> successor = this.FinMinMax(current.RightChild, false);
+
+            current.NodeKey = successor.NodeKey;
+            current.NodeValue  = successor.NodeValue;
+            current.RightChild =  deleteRecursive(current.RightChild, successor.NodeKey);
+
+            return current;
         }
 
-        if (current.RightChild == null) {
-            return current.LeftChild;
+        if (key < current.NodeKey) {
+            current.LeftChild = deleteRecursive(current.LeftChild, key);
+            return current;
+        } else {
+            current.RightChild = deleteRecursive(current.RightChild, key);
         }
+        return current;
 
-        return FinMinMax(current.RightChild, false);
+    }
+
+    private boolean isLeaf(BSTNode<T> node) {
+        return node.RightChild == null && node.LeftChild == null;
+    }
+
+    private boolean hasOnlyOneChild(BSTNode<T> node) {
+        return node.RightChild == null || node.LeftChild == null;
     }
 
     public int Count() {
-        return 0; // количество узлов в дереве
+        if (this.Root != null)
+            return Root.getSize();
+        else
+            return 0; // количество узлов в дереве
     }
-
 }
