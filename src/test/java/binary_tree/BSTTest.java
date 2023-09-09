@@ -42,18 +42,87 @@ class BSTTest {
     }
 
     @Test
+    @DisplayName("add left")
+    void addLeft() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
+
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(110, "110");
+
+        assertEquals(3, bst.Count());
+
+        BSTFind<String> found = bst.FindNodeByKey(80);
+
+        assertFalse(found.NodeHasKey);
+        boolean addResult = bst.AddKeyValue(80, "80");
+        assertTrue(found.ToLeft);
+        assertTrue(addResult);
+
+        found = bst.FindNodeByKey(80);
+        assertTrue(found.NodeHasKey);
+        assertEquals(4, bst.Count());
+    }
+
+    @Test
+    @DisplayName("add right")
+    void addRight() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
+
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(110, "110");
+
+        assertEquals(3, bst.Count());
+
+        BSTFind<String> found = bst.FindNodeByKey(95);
+
+        assertFalse(found.NodeHasKey);
+        boolean addResult = bst.AddKeyValue(95, "95");
+        assertFalse(found.ToLeft);
+        assertTrue(addResult);
+
+        found = bst.FindNodeByKey(95);
+        assertTrue(found.NodeHasKey);
+        assertEquals(4, bst.Count());
+    }
+
+    @Test
     @DisplayName("add exists")
     void addExists() {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
         BST<String> bst = new BST<>(root);
 
-        bst.AddKeyValue(90, "devyanosto");
-        bst.AddKeyValue(110, "stodesyat");
-        bst.AddKeyValue(80, "vsmdst");
-        boolean vsmdst = bst.AddKeyValue(80, "vsmdst");
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(80, "80");
 
-        assertFalse(vsmdst);
+        assertEquals(4, bst.Count());
+
+        boolean addResult = bst.AddKeyValue(80, "уже есть такой ключ");
+        assertFalse(addResult);
+        assertEquals(4, bst.Count());
     }
+
+    @Test
+    @DisplayName("add exists2")
+    void addExists2() {
+        BST<String> bst = new BST<>(null);
+        boolean firstAdd = bst.AddKeyValue(100, "100");
+        assertTrue(firstAdd);
+
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(80, "80");
+
+        bst.DeleteNodeByKey(80);
+
+        boolean addResult = bst.AddKeyValue(80, "80");
+
+        assertTrue(addResult);
+        assertEquals(4, bst.Count());
+    }
+
 
     @Test
     @DisplayName("find max")

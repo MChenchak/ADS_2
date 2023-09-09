@@ -57,7 +57,7 @@ class BST<T> {
         BSTNode<T> found = findRec(this.Root, key);
         BSTFind<T> result = new BSTFind<>();
 
-        result.Node = found;
+        result.Node = findRec(this.Root, key);
         result.NodeHasKey = key == found.NodeKey;
         result.ToLeft = key < found.NodeKey;
 
@@ -80,6 +80,7 @@ class BST<T> {
     public boolean AddKeyValue(int key, T val) {
         if (this.Root == null) {
             this.Root = new BSTNode<>(key, val, null);
+            return true;
         }
 
         BSTFind<T> found = FindNodeByKey(key);
