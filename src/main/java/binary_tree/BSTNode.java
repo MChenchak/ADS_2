@@ -110,7 +110,7 @@ class BST<T> {
 
     private BSTNode<T> findMaxRec(BSTNode<T> current) {
         if (current.RightChild == null) return current;
-        return findMinRec(current.RightChild);
+        return findMaxRec(current.RightChild);
     }
 
     public boolean DeleteNodeByKey(int key) {

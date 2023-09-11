@@ -130,13 +130,20 @@ class BSTTest {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
         BST<String> bst = new BST<>(root);
 
-        bst.AddKeyValue(90, "devyanosto");
-        bst.AddKeyValue(110, "stodesyat");
-        bst.AddKeyValue(80, "vsmdst");
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(80, "80");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(109, "109");
+        bst.AddKeyValue(150, "150");
+        bst.AddKeyValue(170, "170");
+        bst.AddKeyValue(160, "160");
+        bst.AddKeyValue(175, "175");
 
-        BSTNode<String> max = bst.FinMinMax(bst.Root, true);
+        BSTFind<String> found = bst.FindNodeByKey(170);
 
-        assertEquals(110, max.NodeKey);
+        BSTNode<String> max = bst.FinMinMax(found.Node, true);
+
+        assertEquals(175, max.NodeKey);
     }
 
     @Test
@@ -145,13 +152,16 @@ class BSTTest {
         BSTNode<String> root = new BSTNode<>(100, "root", null);
         BST<String> bst = new BST<>(root);
 
-        bst.AddKeyValue(90, "devyanosto");
-        bst.AddKeyValue(110, "stodesyat");
-        bst.AddKeyValue(80, "vsmdst");
-        bst.AddKeyValue(109, "vsmdst");
-        bst.AddKeyValue(112, "vsmdst");
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(80, "80");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(109, "109");
+        bst.AddKeyValue(150, "150");
+        bst.AddKeyValue(170, "170");
+        bst.AddKeyValue(160, "160");
+        bst.AddKeyValue(175, "175");
 
-        BSTFind<String> found = bst.FindNodeByKey(110);
+        BSTFind<String> found = bst.FindNodeByKey(170);
 
         BSTNode<String> min = bst.FinMinMax(found.Node, false);
 
@@ -221,6 +231,8 @@ class BSTTest {
         assertEquals(9, bst.Count());
 
         boolean deleted = bst.DeleteNodeByKey(110);
+
+        BSTNode<String> max = bst.FinMinMax(bst.Root, true);
 
         assertTrue(deleted);
         assertEquals(8, bst.Count());
