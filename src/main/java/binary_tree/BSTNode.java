@@ -1,5 +1,7 @@
 package binary_tree;
 
+import java.util.*;
+
 class BSTNode<T> {
     public int NodeKey; // ключ узла
     public T NodeValue; // значение в узле
@@ -144,8 +146,8 @@ class BST<T> {
             BSTNode<T> successor = this.FinMinMax(current.RightChild, false);
 
             current.NodeKey = successor.NodeKey;
-            current.NodeValue  = successor.NodeValue;
-            current.RightChild =  deleteRecursive(current.RightChild, successor.NodeKey);
+            current.NodeValue = successor.NodeValue;
+            current.RightChild = deleteRecursive(current.RightChild, successor.NodeKey);
 
             return current;
         }
@@ -173,5 +175,65 @@ class BST<T> {
             return Root.getSize();
         else
             return 0; // количество узлов в дереве
+    }
+
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> list = new ArrayList<>();
+
+        if (this.Root == null) {
+            return list;
+        }
+
+        Queue<BSTNode> queue = new LinkedList<>();
+        queue.add(this.Root);
+
+        while (queue.size() > 0) {
+            BSTNode currentNode = queue.poll();
+            list.add(currentNode);
+            if (currentNode.LeftChild != null)
+                queue.add(currentNode.LeftChild);
+
+            if (currentNode.RightChild != null)
+                queue.add(currentNode.RightChild);
+        }
+        return list;
+    }
+
+    public ArrayList<BSTNode> DeepAllNodes(int orderNumber) {
+        ArrayList<BSTNode> res = new ArrayList<>();
+
+        if (this.Root == null) return res;
+
+        if (orderNumber == 0) inOrder(this.Root, res);
+
+        if (orderNumber == 1) postOrder(this.Root, res);
+
+        if (orderNumber == 2) preOrder(this.Root, res);
+
+        return res;
+    }
+
+    private void inOrder(BSTNode current, List<BSTNode> res) {
+        if (current == null) return;
+
+        inOrder(current.LeftChild, res);
+        res.add(current);
+        inOrder(current.RightChild, res);
+    }
+
+    private void postOrder(BSTNode current, List<BSTNode> res) {
+        if (current == null) return;
+
+        postOrder(current.LeftChild, res);
+        postOrder(current.RightChild, res);
+        res.add(current);
+    }
+
+    private void preOrder(BSTNode current, List<BSTNode> res) {
+        if (current == null) return;
+
+        res.add(current);
+        preOrder(current.LeftChild, res);
+        preOrder(current.RightChild, res);
     }
 }

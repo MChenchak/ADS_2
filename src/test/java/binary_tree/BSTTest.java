@@ -3,6 +3,8 @@ package binary_tree;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BSTTest {
@@ -246,5 +248,61 @@ class BSTTest {
         bst.AddKeyValue(100, "100");
     }
 
+    @Test
+    @DisplayName("обход в ширину")
+    void wide() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
+
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(80, "80");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(109, "109");
+        bst.AddKeyValue(150, "150");
+        bst.AddKeyValue(170, "170");
+        bst.AddKeyValue(160, "160");
+        bst.AddKeyValue(175, "175");
+
+        ArrayList<BSTNode> bstNodes = bst.WideAllNodes();
+        assertEquals(9, bstNodes.size());
+    }
+
+    @Test
+    @DisplayName("обход в глубину in-order")
+    void inOrder() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
+
+        bst.AddKeyValue(90, "90");
+        bst.AddKeyValue(80, "80");
+        bst.AddKeyValue(110, "110");
+        bst.AddKeyValue(109, "109");
+        bst.AddKeyValue(150, "150");
+        bst.AddKeyValue(170, "170");
+        bst.AddKeyValue(160, "160");
+        bst.AddKeyValue(175, "175");
+
+        ArrayList<BSTNode> bstNodes = bst.DeepAllNodes(1);
+        assertEquals(9, bstNodes.size());
+    }
+
+    @Test
+    @DisplayName("обход в глубину in-order. empty tree")
+    void inOrderWhenRootIsNull() {
+        BST<String> bst = new BST<>(null);
+
+        ArrayList<BSTNode> bstNodes = bst.DeepAllNodes(1);
+        assertEquals(0, bstNodes.size());
+    }
+
+    @Test
+    @DisplayName("обход в глубину in-order. empty tree")
+    void inOrderOnlyRoot() {
+        BSTNode<String> root = new BSTNode<>(100, "root", null);
+        BST<String> bst = new BST<>(root);
+
+        ArrayList<BSTNode> bstNodes = bst.DeepAllNodes(1);
+        assertEquals(1, bstNodes.size());
+    }
 
 }
