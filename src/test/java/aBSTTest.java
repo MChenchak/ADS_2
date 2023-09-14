@@ -9,14 +9,14 @@ class aBSTTest {
     void createTree() {
         aBST tree = new aBST(3);
 
-        assertEquals(7, tree.Tree.length);
+        assertEquals(15, tree.Tree.length);
     }
 
     @Test
     @DisplayName("Поиск ключа в пустом дереве")
     void addKeys() {
         aBST tree = new aBST(3);
-        assertEquals(7, tree.Tree.length);
+        assertEquals(15, tree.Tree.length);
 
         Integer result = tree.FindKeyIndex(12);
 
@@ -27,7 +27,7 @@ class aBSTTest {
     @DisplayName("Поиск существующего ключа в дереве из одного элемента")
     void existKey() {
         aBST tree = new aBST(3);
-        assertEquals(7, tree.Tree.length);
+        assertEquals(15, tree.Tree.length);
 
         tree.Tree[0] = 12;
 
@@ -40,7 +40,7 @@ class aBSTTest {
     @DisplayName("Поиск несуществующего ключа в дереве из одного элемента")
     void notExistKey() {
         aBST tree = new aBST(3);
-        assertEquals(7, tree.Tree.length);
+        assertEquals(15, tree.Tree.length);
 
         tree.Tree[0] = 12;
 
@@ -55,7 +55,7 @@ class aBSTTest {
     @DisplayName("Поиск несуществующего ключа, который должен быть расположен глубже")
     void notExistKeyDeeper() {
         aBST tree = new aBST(1);
-        assertEquals(1, tree.Tree.length);
+        assertEquals(3, tree.Tree.length);
 
         tree.Tree[0] = 12;
 
@@ -68,7 +68,7 @@ class aBSTTest {
     @DisplayName("add key to empty tree")
     void addToEmpty() {
         aBST tree = new aBST(3);
-        assertEquals(7, tree.Tree.length);
+        assertEquals(15, tree.Tree.length);
 
         int i = tree.AddKey(12);
 
@@ -80,7 +80,7 @@ class aBSTTest {
     @DisplayName("add the same key twice")
     void addSameKeyTwice() {
         aBST tree = new aBST(3);
-        assertEquals(7, tree.Tree.length);
+        assertEquals(15, tree.Tree.length);
 
         tree.AddKey(12);
         int i = tree.AddKey(12);
@@ -93,7 +93,7 @@ class aBSTTest {
     @DisplayName("add key to full tree")
     void addKeyToFullTree() {
         aBST tree = new aBST(2);
-        assertEquals(3, tree.Tree.length);
+        assertEquals(7, tree.Tree.length);
 
         int i1 = tree.AddKey(12);
         assertEquals(0, i1);
@@ -117,7 +117,7 @@ class aBSTTest {
     @DisplayName("add keys2")
     void addKeys2() {
         aBST tree = new aBST(4);
-        assertEquals(15, tree.Tree.length);
+        assertEquals(31, tree.Tree.length);
 
         int i1 = tree.AddKey(50);
         assertEquals(0, i1);

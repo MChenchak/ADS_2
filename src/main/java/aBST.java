@@ -47,13 +47,13 @@ class aBST {
     }
 
     private int countLevelNodes(int treeDepth) {
-        if (treeDepth == 1) return 1;
+        if (treeDepth == 0) return 1;
         return 2 * countLevelNodes(treeDepth - 1);
     }
 
     private int countTreeSize(int treeDepth) {
-        if (treeDepth == 0) return 0;
-        if (treeDepth == 1) return 1;
+        if (treeDepth == 0) return 1;
+//        if (treeDepth == 1) return 1;
 
         int size = countLevelNodes(treeDepth);
         return size + countTreeSize(treeDepth - 1);
