@@ -14,7 +14,7 @@ class aBST {
         if (Tree[0] == null) return 0;
         if (Tree[0] == key) return 0;
 
-        return findKeyRec(0, key, 1); // не найден
+        return findKeyRec(0, key, 0); // не найден
     }
 
     private Integer findKeyRec(int index, int key, int level) {

@@ -54,8 +54,8 @@ class aBSTTest {
     @Test
     @DisplayName("Поиск несуществующего ключа, который должен быть расположен глубже")
     void notExistKeyDeeper() {
-        aBST tree = new aBST(1);
-        assertEquals(3, tree.Tree.length);
+        aBST tree = new aBST(0);
+        assertEquals(1, tree.Tree.length);
 
         tree.Tree[0] = 12;
 
@@ -92,8 +92,8 @@ class aBSTTest {
     @Test
     @DisplayName("add key to full tree")
     void addKeyToFullTree() {
-        aBST tree = new aBST(2);
-        assertEquals(7, tree.Tree.length);
+        aBST tree = new aBST(1);
+        assertEquals(3, tree.Tree.length);
 
         int i1 = tree.AddKey(12);
         assertEquals(0, i1);
@@ -116,11 +116,14 @@ class aBSTTest {
     @Test
     @DisplayName("add keys2")
     void addKeys2() {
-        aBST tree = new aBST(4);
-        assertEquals(31, tree.Tree.length);
+        aBST tree = new aBST(3);
+        assertEquals(15, tree.Tree.length);
 
         int i1 = tree.AddKey(50);
         assertEquals(0, i1);
+
+        int i11 = tree.AddKey(50);
+        assertEquals(0, i11);
 
         int i2 = tree.AddKey(25);
         assertEquals(1, i2);
@@ -142,6 +145,16 @@ class aBSTTest {
 
         int i8 = tree.AddKey(45);
         assertEquals(-1, i8);
+    }
+
+
+    @Test
+    void addKeys3() {
+        aBST tree = new aBST(2);
+
+        int a = tree.AddKey(10);
+        int b = tree.AddKey(11);
+        int c = tree.AddKey(12);
 
     }
 }
