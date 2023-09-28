@@ -29,6 +29,7 @@ class SimpleGraph {
         // Узлы задаются позициями в списке vertex.
         // Возвращается список узлов -- путь из VFrom в VTo.
         // Список пустой, если пути нету.
+        cleanStructure();
         Stack<Integer> path = new Stack<>();
 
         path.push(VFrom);
@@ -36,12 +37,17 @@ class SimpleGraph {
         dfs(VTo, path);
 
         ArrayList<Vertex> result = new ArrayList<>();
-
         for (int i : path) {
             result.add(vertex[i]);
         }
 
         return result;
+    }
+
+    private void cleanStructure() {
+        for (Vertex v : vertex) {
+            v.Hit = false;
+        }
     }
 
     public Stack<Integer> dfs(int target, Stack<Integer> stk) {
