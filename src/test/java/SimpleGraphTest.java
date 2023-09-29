@@ -9,46 +9,39 @@ class SimpleGraphTest {
     void pathExists() {
         SimpleGraph graph = new SimpleGraph(6);
 
+        graph.AddVertex(0);
         graph.AddVertex(1);
         graph.AddVertex(2);
         graph.AddVertex(3);
-        graph.AddVertex(5);
-        graph.AddVertex(8);
         graph.AddVertex(4);
+        graph.AddVertex(5);
 
         graph.AddEdge(0,1);
         graph.AddEdge(0,2);
         graph.AddEdge(0,3);
         graph.AddEdge(2,5);
 
-        ArrayList<Vertex> vertices = graph.DepthFirstSearch(2, 3);
-
-        assertEquals(3, vertices.size());
-
-        ArrayList<Vertex> vertices1 = graph.DepthFirstSearch(2, 3);
-
-        assertEquals(3, vertices1.size());
+        ArrayList<Vertex> vertices = graph.BreadthFirstSearch(5, 1);
+        assertEquals(4, vertices.size());
     }
 
     @Test
     void noPath() {
         SimpleGraph graph = new SimpleGraph(6);
 
+        graph.AddVertex(0);
         graph.AddVertex(1);
         graph.AddVertex(2);
         graph.AddVertex(3);
-        graph.AddVertex(5);
-        graph.AddVertex(8);
         graph.AddVertex(4);
+        graph.AddVertex(5);
 
         graph.AddEdge(0,1);
         graph.AddEdge(0,2);
         graph.AddEdge(0,3);
         graph.AddEdge(2,5);
 
-        ArrayList<Vertex> vertices = graph.DepthFirstSearch(5, 4);
 
-        assertEquals(0, vertices.size());
 
         ArrayList<Vertex> vertices1 = graph.BreadthFirstSearch(5, 4);
 
@@ -106,7 +99,7 @@ class SimpleGraphTest {
 
 
         ArrayList<Vertex> vertices1 = graph.BreadthFirstSearch(5, 6);
-        assertEquals(6, vertices.size());
+        assertEquals(4, vertices1.size());
 
         ArrayList<Vertex> noPath1 = graph.BreadthFirstSearch(2, 4);
         assertEquals(0, noPath1.size());

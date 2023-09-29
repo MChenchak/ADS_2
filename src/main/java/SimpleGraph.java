@@ -1,7 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Stack;
+import java.util.*;
 
 class Vertex {
     public int Value;
@@ -33,33 +30,37 @@ class SimpleGraph {
         // Список пустой, если пути нету.
         cleanStructure();
         Deque<Integer> deque = new ArrayDeque<>();
-        deque.push(VFrom);
 
-        return bfs(deque, VTo, new ArrayList<Vertex>());
+        ArrayList<Vertex> resultList = new ArrayList<>();
+        resultList.add(vertex[VFrom]);
+
+        vertex[VFrom].Hit = true;
+        if (VFrom == VTo)
+            return resultList;
+
+        ArrayList<Vertex> bfs = bfs(deque, VFrom, VTo, resultList);
+        return bfs.contains(vertex[VTo]) ? bfs : new ArrayList<>();
     }
 
-    private ArrayList<Vertex> bfs(Deque<Integer> q, int target, ArrayList<Vertex> path) {
-        if (q.isEmpty()) return path;
-
-        Integer curr = q.pop();
-        path.add(vertex[curr]);
-        vertex[curr].Hit = true;
-
-        if (curr == target) return path;
-
-
+    private ArrayList<Vertex> bfs(Deque<Integer> q, int curr, int target, ArrayList<Vertex> path) {
         for (int j = 0; j < m_adjacency[curr].length; j++) {
             if (!IsEdge(curr, j)) continue;
 
             if (!isVisited(j)) {
-                q.push(j);
+                if (j == target) {
+                    path.add(vertex[j]);
+                    return path;
+                }
                 vertex[j].Hit = true;
-                path.remove(vertex[curr]);
-                return bfs(q, target, path);
+                q.push(j);
             }
         }
-        path.remove(vertex[curr]);
-        return bfs(q, target, path);
+
+        if (q.isEmpty()) return path;
+
+        curr = q.pop();
+        path.add(vertex[curr]);
+        return bfs(q, curr, target, path);
     }
 
     public ArrayList<Vertex> DepthFirstSearch(int VFrom, int VTo) {
