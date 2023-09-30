@@ -156,4 +156,45 @@ class SimpleGraph {
         m_adjacency[v1][v2] = 0;
         m_adjacency[v2][v1] = 0;
     }
+
+    public ArrayList<Vertex> WeakVertices() {
+        cleanStructure();
+        List<Integer> weakIndexes = findWeakVerticesRec(m_adjacency, 0, new ArrayList<>());
+
+        ArrayList<Vertex> result = new ArrayList<>();
+        for (int i : weakIndexes) {
+            result.add(vertex[i]);
+        }
+
+        return result;
+    }
+
+    public List<Integer> findWeakVerticesRec(int[][] graph, int vertex, List<Integer> weakVertices) {
+        if (vertex == graph.length) {
+            return weakVertices;
+        }
+
+        boolean isWeak = true;
+
+        for (int j = 0; j < graph.length; j++) {
+            if (graph[vertex][j] == 1) {
+                for (int k = j + 1; k < graph.length; k++) {
+                    if (graph[vertex][k] == 1 && graph[j][k] == 1) {
+                        isWeak = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isWeak) {
+                break;
+            }
+        }
+
+        if (isWeak) {
+            weakVertices.add(vertex);
+        }
+
+        return findWeakVerticesRec(graph, vertex + 1, weakVertices);
+    }
 }
